@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    * { cursor: none; }
+    body {
+      margin: 0;
+      background: url('./images/flash.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(6px);
+      z-index: -1;
+    }
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(0,255,255,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+    }
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 0.6rem 1.6rem;
+      font-size: 1rem;
+      color: white;
+      background-color: #171D63;
+      border: none;
+      border-radius: 999px;
+      text-decoration: none;
+      z-index: 1000;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .back-button:hover {
+      background-color: #5053ff;
+      transform: scale(1.05);
+    }
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-size: 2.5rem;
+      text-align: center;
+      color: #ccd0ff;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .content.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .subheading {
+      font-size: 1.5rem;
+      color: #aad6ff;
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: glowFadeIn 2s ease-in-out;
+    }
+    @keyframes glowFadeIn {
+      from {
+        opacity: 0;
+        text-shadow: none;
+      }
+      to {
+        opacity: 1;
+        text-shadow: 0 0 8px #80dfff, 0 0 16px #5053ff;
+      }
+    }
+    .post-area {
+      width: 80%;
+      max-width: 700px;
+      margin: 2rem auto;
+      background: rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+      backdrop-filter: blur(4px);
+    }
+    .post-area input, .post-area textarea {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .post-area button {
+      padding: 0.6rem 1.4rem;
+      background: #171D63;
+      color: white;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .posts {
+      width: 80%;
+      max-width: 700px;
+      margin: 2rem auto;
+    }
+    .post {
+      background: rgba(255,255,255,0.1);
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 12px;
+      backdrop-filter: blur(3px);
+    }
+    .post h4 { margin: 0 0 0.5rem; color: #ccc; }
+    .post p { margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="custom-cursor" id="cursor"></div>
+  <a href="techniques.html" class="back-button">← Back</a>
+  <div class="header" id="mainHeader">
+    Join a vibrant community of photographers<br>to share, learn, and grow together!
+  </div>
+  <div class="content" id="mainContent">
+    <div class="subheading">✨ Share your thoughts and connect with others below ✨</div>
+    <div class="post-area">
+      <input type="text" placeholder="Your name">
+      <textarea rows="4" placeholder="What do you want to share?"></textarea>
+      <button onclick="alert('Please login with your school email to post.')">Post</button>
+    </div>
+    <div class="posts">
+      <div class="post">
+        <h4>@LunaLens</h4>
+        <p>I captured this at blue hour. The contrast in color is magical!</p>
+      </div>
+      <div class="post">
+        <h4>@MountainMist</h4>
+        <p>Golden hour over the Rockies. Shot with a 70mm lens — breathtaking moment.</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top  = `${e.clientY}px`;
+    });
+
+    const header = document.getElementById('mainHeader');
+    const content = document.getElementById('mainContent');
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      if (scrollY > window.innerHeight / 2) {
+        content.classList.add('visible');
+        header.style.opacity = '0';
+      } else {
+        content.classList.remove('visible');
+        header.style.opacity = '1';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    * { cursor: none; }
+    body {
+      margin: 0;
+      background: url('./images/flash.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      color: white;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(6px);
+      z-index: -1;
+    }
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(0,255,255,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+    }
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 0.6rem 1.6rem;
+      font-size: 1rem;
+      color: white;
+      background-color: #171D63;
+      border: none;
+      border-radius: 999px;
+      text-decoration: none;
+      z-index: 1000;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .back-button:hover {
+      background-color: #5053ff;
+      transform: scale(1.05);
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      animation: fadeInDown 1.2s ease forwards;
+    }
+    p {
+      font-size: 1.1rem;
+      color: #dcdcdc;
+      max-width: 600px;
+      margin-bottom: 2rem;
+      animation: fadeInUp 1.5s ease forwards;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+      max-width: 500px;
+      animation: fadeInUp 2s ease forwards;
+    }
+    input, textarea {
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      border: none;
+      font-size: 1rem;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      backdrop-filter: blur(4px);
+    }
+    input::placeholder, textarea::placeholder {
+      color: #ccc;
+    }
+    button {
+      padding: 0.8rem;
+      background: #171D63;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    button:hover {
+      background-color: #5053ff;
+      transform: scale(1.05);
+    }
+    .socials {
+      margin-top: 3rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      font-size: 1.4rem;
+      animation: fadeInUp 2.2s ease forwards;
+    }
+    .socials a {
+      color: #aad6ff;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .socials a:hover {
+      color: #ffffff;
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="custom-cursor" id="cursor"></div>
+  <a href="index.html" class="back-button">← Back</a>
+  <div class="container">
+    <h1>Contact Us</h1>
+    <p>If you have any questions, suggestions, or just want to say hello — we'd love to hear from you! 💬</p>
+    <form action="mailto:your.email@school.edu" method="POST" enctype="text/plain">
+      <input type="text" placeholder="Your Name" name="name" required />
+      <input type="email" placeholder="School Email" name="email" required />
+      <textarea rows="5" placeholder="Write your message here..." name="message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+
+    <div class="socials">
+      <a href="mailto:your.email@school.edu" target="_blank">📧 Email</a>
+      <a href="https://instagram.com/yourusername" target="_blank">📸 Instagram</a>
+      <a href="https://www.yourschool.edu" target="_blank">🏫 School Site</a>
+    </div>
+  </div>
+  <script>
+    const cursor = document.getElementById("cursor");
+    document.addEventListener("mousemove", (e) => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    });
+  </script>
+  <footer style="text-align: center; padding: 1rem; font-size: 0.9rem; color: #ccc; backdrop-filter: blur(4px); background: rgba(0,0,0,0.3);">
+    © 2025 Xinru Yu. All rights reserved. | Email: <a href="mailto:yux@ocadu.ca" style="color: #aad6ff; text-decoration: none;">yux@ocadu.ca</a> | Instagram: <a href="https://instagram.com/rawn.yolanda" target="_blank" style="color: #aad6ff; text-decoration: none;">@rawn.yolanda</a>
+  </footer>
+  </body>
+  </html>
+  

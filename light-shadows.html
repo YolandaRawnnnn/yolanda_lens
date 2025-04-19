@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Light & Shadows</title>
+  <style>
+    * { cursor: none !important; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('./images/flash.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.2);
+      backdrop-filter: blur(4px);
+      z-index: -1;
+    }
+
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(0,255,255,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      transition: background-color 0.2s ease;
+    }
+
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 0.6rem 1.6rem;
+      font-size: 1rem;
+      color: white;
+      background-color: #171D63;
+      border: none;
+      border-radius: 999px;
+      text-decoration: none;
+      z-index: 1000;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #5053ff;
+      transform: scale(1.05);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      margin-top: 4rem;
+      text-shadow: 0 0 8px #5053ff;
+    }
+
+    .section {
+      max-width: 1000px;
+      margin: 3rem auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+      padding: 1rem;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section.reverse {
+      grid-template-columns: 1fr 1fr;
+      direction: rtl;
+    }
+
+    .section img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 0 16px rgba(80, 83, 255, 0.5);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .section img:hover {
+      box-shadow: 0 0 20px #ffffff, 0 0 40px #5053ff;
+    }
+
+    .section .text {
+      backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.5);
+      border: 2px solid #5053ff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      direction: ltr;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .section .text:hover {
+      box-shadow: 0 0 20px #ffffff, 0 0 40px #5053ff;
+    }
+
+    .section .text h2 {
+      margin-top: 0;
+      color: #fff;
+    }
+
+    .section .text p {
+      color: #ddd;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="custom-cursor" id="cursor"></div>
+  <a href="techniques.html" class="back-button">← Back</a>
+  <h1>Light & Shadows</h1>
+
+  <div class="section">
+    <img src="images/hardlight.jpg" alt="Hard Light" />
+    <div class="text">
+      <h2>Hard Light</h2>
+      <p>Creates sharp shadows and high contrast. Often from direct light sources like the sun or flash. Ideal for dramatic effects and textures.</p>
+    </div>
+  </div>
+
+  <div class="section reverse">
+    <img src="images/softlight.jpg" alt="Soft Light" />
+    <div class="text">
+      <h2>Soft Light</h2>
+      <p>Produces gentle shadows and smooth transitions. Great for portraits and close-ups, often found on cloudy days or with diffused light sources.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <img src="images/goldenhour.jpg" alt="Golden Hour" />
+    <div class="text">
+      <h2>Golden Hour</h2>
+      <p>The hour after sunrise or before sunset. Delivers warm tones and long shadows, enhancing the emotional warmth of images.</p>
+    </div>
+  </div>
+
+  <div class="section reverse">
+    <img src="images/bluehour.jpg" alt="Blue Hour" />
+    <div class="text">
+      <h2>Blue Hour</h2>
+      <p>The time right before sunrise or after sunset. Brings cool tones and a dreamlike quality, perfect for serene landscapes and silhouettes.</p>
+    </div>
+  </div>
+
+  <script>
+    // Smooth follow cursor
+    const cursor = document.getElementById('cursor');
+    let mouseX = 0, mouseY = 0;
+    let currentX = 0, currentY = 0;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateCursor() {
+      currentX += (mouseX - currentX) * 0.2;
+      currentY += (mouseY - currentY) * 0.2;
+      cursor.style.left = `${currentX}px`;
+      cursor.style.top  = `${currentY}px`;
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Scroll fade-in
+    const sections = document.querySelectorAll('.section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>

@@ -1,33 +1,233 @@
-
-<!-- html is the bread -->
-
 <!DOCTYPE html>
-<html lang="en">
-
-<!-- head section is the sauce -->
+<html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>CLASS WORK - Student Work Archive</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Photography Technique Hub</title>
+  <style>
+    * { cursor: none !important; }
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      position: relative;
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: url('./images/flash.jpg') center/cover fixed;
+      transform-origin: center center;
+      animation: bgZoom 30s ease-in-out infinite;
+      z-index: -2;
+    }
+    @keyframes bgZoom {
+      0%,100% { transform: scale(1); }
+      50%     { transform: scale(1.1); }
+    }
+    .custom-cursor {
+      width: 20px; height: 20px;
+      background-color: rgba(0,255,255,0.5);
+      border-radius: 50%;
+      position: fixed; pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: background-color 0.2s ease;
+      z-index: 9999;
+    }
+    .lens-flare {
+      position: absolute;
+      top: -20%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 60%);
+      transform: rotate(45deg) translateX(-100%);
+      animation: flare 6s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+    @keyframes flare {
+      0%,100% { transform: rotate(45deg) translateX(-100%); opacity: 0; }
+      50%     { transform: rotate(45deg) translateX(100%);  opacity: 0.3; }
+    }
+    .menu-button {
+      position: absolute; top: 20px; right: 20px;
+      padding: 8px 20px; font-size: 1rem;
+      color: #fff; background-color: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.7);
+      border-radius: 20px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      z-index: 2;
+      text-decoration: none;
+    }
+    .menu-button:hover {
+      border-color: #5053ff;
+      box-shadow: 0 0 8px #5053ff, 0 0 16px #5053ff;
+    }
+    .hero {
+      position: relative; z-index: 1;
+      height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center; padding: 0 20px;
+    }
+    .subtitle {
+      font-size: 1.2rem;
+      letter-spacing: 0.15em;
+      opacity: 0.7;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 2px #fff, 0 0 4px #fff;
+      transition: transform 0.1s ease-out;
+    }
+    h1 {
+      font-size: 5rem;
+      margin: 0;
+      text-shadow: 0 0 3px #fff, 0 0 6px #fff;
+      animation: neonFlicker 2s infinite alternate ease-in-out;
+      transition: transform 0.1s ease-out;
+    }
+    @keyframes neonFlicker {
+      0%,100% {
+        text-shadow:
+          0 0 2px #fff,
+          0 0 4px #fff,
+          0 0 8px #5053ff,
+          0 0 16px #5053ff;
+      }
+      50% {
+        text-shadow:
+          0 0 4px #fff,
+          0 0 8px #fff,
+          0 0 16px #5053ff,
+          0 0 32px #5053ff;
+      }
+    }
+    .join-button {
+      margin-top: 3rem;
+      padding: 12px 36px;
+      font-size: 1.2rem;
+      color: #171D63;
+      background-color: rgba(255,255,255,0.3);
+      border-radius: 999px;
+      text-decoration: none;
+      animation: bounce 2s infinite;
+      transition: background-color 0.3s;
+      z-index: 1;
+    }
+    @keyframes bounce {
+      0%,20%,50%,80%,100% { transform: translateY(0); }
+      40%               { transform: translateY(-8px); }
+      60%               { transform: translateY(-4px); }
+    }
+    .join-button:hover {
+      background-color: rgba(255,255,255,0.4);
+    }
+    .menu-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+      display: none; justify-content: center; align-items: center;
+      z-index: 3;
+    }
+    .menu-overlay.active {
+      display: flex; animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    .close-button {
+      position: absolute; top: 20px; right: 20px;
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.3);
+      border: none; border-radius: 50%;
+      color: #fff; font-size: 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s; z-index: 4;
+    }
+    .close-button:hover {
+      background: rgba(255,255,255,0.5);
+    }
+    .menu-items {
+      display: grid;
+      grid-template-columns: repeat(2, 220px);
+      grid-gap: 80px;
+      justify-content: center; align-content: center;
+    }
+    .menu-item {
+      display: flex; justify-content: center; align-items: center;
+      width: 220px; height: 220px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(6px);
+      border-radius: 10px;
+      font-size: 1.2rem; color: #fff;
+      text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .menu-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(80,83,255,0.7), 0 0 20px rgba(80,83,255,0.5);
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #ccc;
+      backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 10;
+    }
+    footer a {
+      color: #aad6ff;
+      text-decoration: none;
+    }
+  </style>
 </head>
+<body>
+  <div class="custom-cursor" id="cursor"></div>
+  <div class="lens-flare"></div>
+  <a href="#" class="menu-button" id="menu-button">Menu</a>
 
-<!-- this is how you write a comment describing your code in HTML. the body section is for all content that is visible. Keep it here! Semantic structure is just as important as syntax. -->
+  <div class="hero">
+    <p class="subtitle">A Dreamscape for Photography Lovers</p>
+    <h1>Photography Technique Hub</h1>
+    <a href="signup.html" class="join-button">Join Us</a>
+  </div>
 
-<!-- body section is the protein -->
+  <div class="menu-overlay" id="menu-overlay">
+    <button class="close-button" id="close-button">❌</button>
+    <div class="menu-items">
+      <a href="gallery.html"    class="menu-item">Gallery</a>
+      <a href="techniques.html" class="menu-item">Techniques</a>
+      <a href="community.html"  class="menu-item">Community</a>
+      <a href="contact.html"    class="menu-item">Contact</a>
+    </div>
+  </div>
 
+  <footer>
+    © 2025 Xinru Yu. All rights reserved.
+    | Email: <a href="mailto:yux@ocadu.ca">yux@ocadu.ca</a>
+    | Instagram: <a href="https://instagram.com/rawn.yolanda" target="_blank">@rawn.yolanda</a>
+  </footer>
 
-    <body>
-        <h1>Photography Technique Hub</h1>
-        <h2>Student work Archive</h2>
-        <h3>by: Yolanda, March 4, 2025</h3>
-            <p>Hello world, this is the website of yoyo, i feel sleepyyyyy, miss my bed SO SO MUCH TT</p>
-            <p>i want go home!!!hahah</p>
-    <div><a href="yolanda.html">About</a></div>
-    <img src="images/youngdan.webp" alt="flash" width="100" >
-    
-    
-    </body>
+  <script>
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
 
+    document.addEventListener('mousemove', e => {
+      const x = (e.clientX/window.innerWidth  - 0.5) * 20;
+      const y = (e.clientY/window.innerHeight - 0.5) * 20;
+      document.querySelector('h1').style.transform = `translate(${x}px,${y}px)`;
+      document.querySelector('.subtitle').style.transform = `translate(${x*0.5}px,${y*0.5}px)`;
+    });
+
+    const menuBtn  = document.getElementById('menu-button');
+    const overlay  = document.getElementById('menu-overlay');
+    const closeBtn = document.getElementById('close-button');
+    menuBtn.addEventListener('click', () => overlay.classList.add('active'));
+    closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
+  </script>
+</body>
 </html>

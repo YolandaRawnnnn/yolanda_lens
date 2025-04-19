@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery - Explore Stunning Photos</title>
+<style>
+    body {
+        cursor: none; 
+        background-color: black;
+        color: white;
+        font-family: sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* 自定义鼠标光标 */
+    .custom-cursor {
+        width: 20px;
+        height: 20px;
+        background-color: rgba(0, 255, 255, 0.5);
+        border: 2px solid transparent;
+        border-radius: 50%;
+        position: absolute;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        transition: transform 0.1s ease, background-color 0.3s ease;
+    }
+
+    /* 让鼠标悬停时变色 */
+    a:hover ~ .custom-cursor, 
+    button:hover ~ .custom-cursor, 
+    .gallery-item img:hover ~ .custom-cursor {
+        background-color: rgba(0, 255, 255, 0.8);
+    }
+
+    /* 瀑布流布局 */
+    .gallery-container {
+        column-count: 4;
+        column-gap: 15px;
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 10px;
+    }
+    .gallery-item {
+        width: 100%;
+        margin-bottom: 15px;
+        break-inside: avoid;
+        transition: transform 0.3s ease-in-out; /* 让整体变换也有动画 */
+    }
+
+    /* 照片放大效果 + 过渡动画 */
+    .gallery-item img {
+        width: 100%;
+        border-radius: 5px;
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease;
+    }
+
+    /* 鼠标悬停时放大 */
+    .gallery-item img:hover {
+        transform: scale(1.1);
+        opacity: 0.9;
+    }
+
+    /* 返回主页按钮 */
+    .back-button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: white;
+        color: #171D63;
+        text-decoration: none;
+        font-size: 18px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    .back-button:hover {
+        background-color: #171D63;
+        color: white;
+    }
+
+    /* 适配移动端 */
+    @media (max-width: 768px) {
+        .gallery-container {
+            column-count: 2;
+        }
+    }
+    @media (max-width: 480px) {
+        .gallery-container {
+            column-count: 1;
+        }
+    }
+</style>
+</head>
+<body>
+    <!-- 自定义鼠标光标 -->
+    <div class="custom-cursor" id="cursor"></div>
+    
+    <h1>Gallery - Explore Stunning Photos</h1>
+    
+    <div class="gallery-container">
+        <div class="gallery-item"><img src="images/photo1.jpg" alt="Photo 1"></div>
+        <div class="gallery-item"><img src="images/photo2.JPG" alt="Photo 2"></div>
+        <div class="gallery-item"><img src="images/photo3.jpg" alt="Photo 3"></div>
+        <div class="gallery-item"><img src="images/photo4.jpg" alt="Photo 4"></div>
+        <div class="gallery-item"><img src="images/photo5.jpg" alt="Photo 5"></div>
+        <div class="gallery-item"><img src="images/photo6.JPG" alt="Photo 6"></div>
+        <div class="gallery-item"><img src="images/photo7.jpg" alt="Photo 7"></div>
+        <div class="gallery-item"><img src="images/photo8.jpg" alt="Photo 8"></div>
+        <div class="gallery-item"><img src="images/photo9.jpg" alt="Photo 9"></div>
+        <div class="gallery-item"><img src="images/photo10.JPG" alt="Photo 10"></div>
+        <div class="gallery-item"><img src="images/photo11.JPG" alt="Photo 11"></div>
+    </div>
+    
+    <a href="index.html" class="back-button">Back to Home</a>
+    
+    <script>
+        const cursor = document.getElementById("cursor");
+
+        // 让光标跟随鼠标
+        document.addEventListener("mousemove", (e) => {
+            requestAnimationFrame(() => {
+                cursor.style.left = `${e.clientX}px`;
+                cursor.style.top = `${e.clientY}px`;
+            });
+        });
+    </script>
+</body>
+</html>

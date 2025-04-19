@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exposure Triangle</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('./images/flash.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.2);
+      backdrop-filter: blur(4px);
+      z-index: -1;
+    }
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(0,255,255,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+    }
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 0.6rem 1.6rem;
+      font-size: 1rem;
+      color: white;
+      background-color: #171D63;
+      border: none;
+      border-radius: 999px;
+      text-decoration: none;
+      z-index: 1000;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .back-button:hover {
+      background-color: #5053ff;
+      transform: scale(1.05);
+    }
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      margin-top: 4rem;
+    }
+    .columns {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 4rem auto;
+      padding: 0 1rem;
+    }
+    .column {
+      background: rgba(255,255,255,0.05);
+      border: 2px solid #5053ff;
+      border-radius: 12px;
+      width: 300px;
+      text-align: center;
+      padding: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .column:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px #5053ff, 0 0 24px #0800ff;
+    }
+    .column img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .column h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .column p {
+      font-size: 1rem;
+      line-height: 1.4;
+      color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="custom-cursor" id="cursor"></div>
+  <a href="techniques.html" class="back-button">← Back</a>
+  <h1>Exposure Triangle</h1>
+  <div class="columns">
+    <div class="column">
+      <img src="images/aperture.jpg" alt="Aperture icon">
+      <h2>Aperture</h2>
+      <p>Controls how much light enters the lens. Lower f‑numbers = wider aperture & shallower depth of field; higher f‑numbers = deeper focus.</p>
+    </div>
+    <div class="column">
+      <img src="images/shutterspeed.jpg" alt="Shutter Speed icon">
+      <h2>Shutter Speed</h2>
+      <p>Determines how long the shutter stays open. Fast speeds (e.g. 1/1000 s) freeze action; slow speeds (e.g. 1/30 s) create motion blur.</p>
+    </div>
+    <div class="column">
+      <img src="images/iso.jpg" alt="ISO icon">
+      <h2>ISO</h2>
+      <p>Camera’s sensitivity to light. Higher ISO lets you shoot in darker conditions but increases image noise.</p>
+    </div>
+  </div>
+  <script>
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    });
+  </script>
+</body>
+</html>

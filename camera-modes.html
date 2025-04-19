@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Camera Modes & Settings</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    * { cursor: none !important; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('./images/cameramodes.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.2);
+      backdrop-filter: blur(4px);
+      z-index: -1;
+    }
+
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(0, 255, 255, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      margin: 2rem 0;
+      text-shadow: 0 0 6px #5053ff;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .mode-selector {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .mode-btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: 30px;
+      border: 2px solid #5053ff;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+
+    .mode-btn:hover, .mode-btn.active {
+      background: #5053ff;
+      box-shadow: 0 0 12px #5053ff;
+    }
+
+    .mode-content {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(0,0,0,0.6);
+      border: 2px solid #5053ff;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      backdrop-filter: blur(6px);
+      animation: fadeInUp 1s ease;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .mode-content h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .mode-content p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #f0f0f0;
+    }
+
+    .mode-media {
+      margin-top: 1.5rem;
+    }
+
+    .mode-media iframe {
+      width: 100%;
+      max-width: 480px;
+      height: 270px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 0 8px #5053ff;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal iframe {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 12px;
+    }
+
+    .modal .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
+    }
+
+    .back-button {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      z-index: 999;
+      padding: 0.6rem 1.4rem;
+      font-size: 1rem;
+      color: #fff;
+      background: #171D63;
+      border: none;
+      border-radius: 30px;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px #5053ff;
+    }
+
+    .back-button:hover {
+      background: #2a2f91;
+    }
+  </style>
+</head>
+<body>
+  <div class="custom-cursor" id="cursor"></div>
+
+  <a href="techniques.html" class="back-button">← Back</a>
+  <h1>Camera Modes & Settings</h1>
+
+  <div class="mode-selector">
+    <button class="mode-btn active" data-mode="auto">Auto</button>
+    <button class="mode-btn" data-mode="manual">Manual / Pro</button>
+    <button class="mode-btn" data-mode="aperture">Aperture Priority (A/Av)</button>
+    <button class="mode-btn" data-mode="shutter">Shutter Priority (S/Tv)</button>
+    <button class="mode-btn" data-mode="portrait">Portrait / HDR</button>
+  </div>
+
+  <div class="mode-content" id="modeContent">
+    <h2>Auto Mode</h2>
+    <p>Auto mode selects all camera settings for you—shutter speed, aperture, ISO. It’s ideal for quick shots and beginners who want reliable results without adjusting technical details manually.</p>
+    <div class="mode-media">
+      <iframe src="" data-src="https://www.youtube.com/embed/kM3Ih2GSgI4" allowfullscreen id="videoFrame"></iframe>
+    </div>
+  </div>
+
+  <div class="modal" id="videoModal">
+    <span class="close-btn" onclick="closeModal('videoModal')">&times;</span>
+    <iframe src="https://www.youtube.com/embed/kM3Ih2GSgI4" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.pageX + 'px';
+      cursor.style.top  = e.pageY + 'px';
+    });
+
+    const contentMap = {
+      auto: {
+        title: "Auto Mode",
+        text: "Auto mode selects all camera settings for you—shutter speed, aperture, ISO. It’s ideal for quick shots and beginners who want reliable results without adjusting technical details manually."
+      },
+      manual: {
+        title: "Manual / Pro Mode",
+        text: "Manual mode gives you full control over all camera settings. Adjust shutter speed, aperture, and ISO to suit your creative needs. Great for tricky lighting and artistic effects."
+      },
+      aperture: {
+        title: "Aperture Priority (A/Av)",
+        text: "You choose the aperture (f-stop), and the camera sets the shutter speed. Use this for controlling depth of field—great for portraits or blurred backgrounds."
+      },
+      shutter: {
+        title: "Shutter Priority (S/Tv)",
+        text: "You choose the shutter speed, and the camera adjusts aperture. Ideal for capturing motion—freeze action with fast shutter or create blur with slow shutter."
+      },
+      portrait: {
+        title: "Portrait / HDR Modes",
+        text: "Portrait mode enhances facial features and adds background blur. HDR mode blends exposures to capture more detail in shadows and highlights—useful in high-contrast scenes."
+      }
+    };
+
+    const buttons = document.querySelectorAll('.mode-btn');
+    const modeContent = document.getElementById('modeContent');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const mode = btn.dataset.mode;
+        modeContent.innerHTML = `
+          <h2>${contentMap[mode].title}</h2>
+          <p>${contentMap[mode].text}</p>
+          <div class="mode-media">
+            <iframe src="" data-src="https://www.youtube.com/embed/kM3Ih2GSgI4" allowfullscreen id="videoFrame"></iframe>
+          </div>
+        `;
+
+        const video = document.getElementById('videoFrame');
+        video.onmouseenter = () => video.src = video.dataset.src;
+        video.onclick = () => openModal('videoModal');
+      });
+    });
+
+    function openModal(id) {
+      document.getElementById(id).style.display = 'flex';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    const video = document.getElementById('videoFrame');
+    video.onmouseenter = () => video.src = video.dataset.src;
+    video.onclick = () => openModal('videoModal');
+  </script>
+</body>
+</html>

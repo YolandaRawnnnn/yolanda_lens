@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Lenses</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    * { cursor: none !important; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('./images/flash.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      overflow-x: hidden;
+      transition: background-image 0.8s ease-in-out;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(6px);
+      z-index: -1;
+    }
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(0, 255, 255, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+    }
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 0.6rem 1.6rem;
+      font-size: 1rem;
+      color: white;
+      background-color: #171D63;
+      border: none;
+      border-radius: 999px;
+      text-decoration: none;
+      z-index: 1000;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .back-button:hover {
+      background-color: #5053ff;
+      transform: scale(1.05);
+    }
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      margin-top: 4rem;
+      text-shadow: 0 0 8px #5053ff;
+    }
+    .lens-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 3rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .lens-card {
+      background: rgba(255,255,255,0.05);
+      border: 2px solid #5053ff;
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      backdrop-filter: blur(6px);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .lens-card img {
+      width: 100%;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+    .lens-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #ffffff, 0 0 40px #5053ff;
+    }
+    .lens-card:hover img {
+      transform: scale(1.1);
+    }
+    .lens-card h3 {
+      margin: 1rem 0 0.5rem;
+    }
+    .lens-card p {
+      font-size: 0.95rem;
+      color: #eee;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #111;
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 700px;
+      text-align: center;
+    }
+    .modal-content img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+    .modal-content h2, .modal-content p {
+      margin: 0.5rem 0;
+    }
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="custom-cursor" id="cursor"></div>
+  <a href="techniques.html" class="back-button">← Back</a>
+  <h1>Understanding Lenses</h1>
+
+  <div class="lens-grid">
+    <div class="lens-card" data-bg="images/wide-bg.jpg" data-img="images/wide.jpg" data-title="Wide Angle Lens" data-text="Great for landscapes and architecture. Captures more in the frame.">
+      <img src="images/wide.jpg" alt="Wide Angle" />
+      <h3>Wide Angle</h3>
+      <p>16–35mm – Landscapes, buildings, interiors</p>
+    </div>
+    <div class="lens-card" data-bg="images/standard-bg.jpg" data-img="images/standard.jpg" data-title="Standard Lens" data-text="Natural perspective similar to the human eye. Ideal for general photography.">
+      <img src="images/standard.jpg" alt="Standard Lens" />
+      <h3>Standard</h3>
+      <p>50mm – Everyday shots, street, portrait</p>
+    </div>
+    <div class="lens-card" data-bg="images/tele-bg.jpg" data-img="images/telephoto.jpg" data-title="Telephoto Lens" data-text="Compresses space, isolates the subject. Great for portraits and distant objects.">
+      <img src="images/telephoto.jpg" alt="Telephoto Lens" />
+      <h3>Telephoto</h3>
+      <p>85–200mm – Portraits, wildlife, sports</p>
+    </div>
+    <div class="lens-card" data-bg="images/macro-bg.jpg" data-img="images/macro.jpg" data-title="Macro Lens" data-text="Captures tiny details and textures up close. Ideal for nature and product shots.">
+      <img src="images/macro.jpg" alt="Macro Lens" />
+      <h3>Macro</h3>
+      <p>1:1 – Flowers, insects, small objects</p>
+    </div>
+  </div>
+
+  <div class="modal" id="lensModal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <img id="modalImage" src="" alt="">
+      <h2 id="modalTitle"></h2>
+      <p id="modalText"></p>
+    </div>
+  </div>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    });
+
+    const cards = document.querySelectorAll('.lens-card');
+    const modal = document.getElementById('lensModal');
+    const modalImg = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalText = document.getElementById('modalText');
+
+    function closeModal() {
+      modal.style.display = 'none';
+    }
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const img = card.getAttribute('data-img');
+        const title = card.getAttribute('data-title');
+        const text = card.getAttribute('data-text');
+        const bg = card.getAttribute('data-bg');
+        modalImg.src = img;
+        modalTitle.innerText = title;
+        modalText.innerText = text;
+        modal.style.display = 'flex';
+        document.body.style.backgroundImage = `url('${bg}')`;
+      });
+    });
+  </script>
+</body>
+</html>
